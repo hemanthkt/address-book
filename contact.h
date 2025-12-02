@@ -3,13 +3,15 @@
 
 #define MAX_CONTACTS 100
 
-typedef struct {
+typedef struct
+{
     char name[50];
     char phone[20];
     char email[50];
 } Contact;
 
-typedef struct {
+typedef struct
+{
     Contact contacts[100];
     int contactCount;
 } AddressBook;
