@@ -25,7 +25,7 @@ void initialize(AddressBook *addressBook)
     populateAddressBook(addressBook);
 
     // Load contacts from file during initialization (After files)
-    // loadContactsFromFile(addressBook);
+    loadContactsFromFile(addressBook);
 }
 
 void saveAndExit(AddressBook *addressBook)
@@ -126,18 +126,14 @@ void searchContact(AddressBook *addressBook)
                     if (searchName(tempName, addressBook->contacts[i].name) != -1)
                     {
                         addressIndex = i;
-                        break;
+                        printf("Name: %s\n", addressBook->contacts[addressIndex].name);
+                        printf("Phone: %s\n", addressBook->contacts[addressIndex].phone);
+                        printf("Email: %s\n", addressBook->contacts[addressIndex].email);
+                        printf("\n");
                     }
                 }
 
-                if (addressIndex != -1)
-                {
-                    printf("Name: %s\n", addressBook->contacts[addressIndex].name);
-                    printf("Phone: %s\n", addressBook->contacts[addressIndex].phone);
-                    printf("Email: %s\n", addressBook->contacts[addressIndex].email);
-                    printf("\n");
-                }
-                else if (addressIndex == -1)
+                if (addressIndex == -1)
                 {
                     printf("Contact not found");
                 }
@@ -463,6 +459,7 @@ void deleteContact(AddressBook *addressBook)
                             strcpy(addressBook->contacts[i].email, addressBook->contacts[i + 1].email);
                         }
                         addressBook->contactCount--;
+                        saveContactsToFile(addressBook);
                         printf("\nContact Successfully deleted!!\n");
                     }
                     else
