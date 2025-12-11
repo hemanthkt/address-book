@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "contact.h"
+#include <ctype.h>
 
 int checkName(char name[])
 {
@@ -9,7 +10,7 @@ int checkName(char name[])
     int flag = 0;
     while (name[i] != '\0')
     {
-        if (name[i] >= 'a' && name[i] <= 'z' || name[i] >= 'A' && name[i] <= 'Z')
+        if (name[i] >= 'a' && name[i] <= 'z' || name[i] >= 'A' && name[i] <= 'Z' || name[i] == ' ')
         {
 
             flag = 1;
@@ -94,6 +95,19 @@ int checkMail(char mail[])
     {
         printf("Too small, Invalid!");
         return 0;
+    }
+
+    for (int i = 0; i < bodyLength; i++)
+    {
+        if (isdigit(mail[i]))
+        {
+            continue;
+        }
+        if (isalpha(mail[i]) == 0)
+        {
+            printf("No symbols are allowed!\n");
+            return 0;
+        }
     }
 
     if (atIndex == -1)
