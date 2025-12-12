@@ -79,6 +79,7 @@ void createContact(AddressBook *addressBook)
         // Check duplicate email
         for (int i = 0; i < addressBook->contactCount; i++)
         {
+            // searchname
             if (searchName(tempEmail, addressBook->contacts[i].email) != -1)
             {
                 printf("This Email already exists.\n");
@@ -160,7 +161,8 @@ void searchContact(AddressBook *addressBook)
                 int addressIndex = -1;
                 for (int i = 0; i < addressBook->contactCount; i++)
                 {
-                    if (searchName(tempNumber, addressBook->contacts[i].phone) != -1)
+                    // search number returns the index of the retirved contact
+                    if (searchNumber(tempNumber, addressBook->contacts[i].phone) != -1)
                     {
                         addressIndex = i;
                         break;
@@ -169,6 +171,7 @@ void searchContact(AddressBook *addressBook)
 
                 if (addressIndex != -1)
                 {
+                    // displays the contac t which have searhced
                     printf("Name: %s\n", addressBook->contacts[addressIndex].name);
                     printf("Phone: %s\n", addressBook->contacts[addressIndex].phone);
                     printf("Email: %s\n", addressBook->contacts[addressIndex].email);
@@ -176,6 +179,7 @@ void searchContact(AddressBook *addressBook)
                 }
                 else if (addressIndex == -1)
                 {
+
                     printf("Contact not found");
                 }
             }
@@ -183,6 +187,7 @@ void searchContact(AddressBook *addressBook)
         case 3: // Search by Email
             printf("Enter Email: ");
             scanf("%s", tempEmail);
+            // validating if the email is correclty formatted
             valid = checkMail(tempEmail);
             if (valid == 0)
             {
@@ -193,7 +198,8 @@ void searchContact(AddressBook *addressBook)
                 int addressIndex = -1;
                 for (int i = 0; i < addressBook->contactCount; i++)
                 {
-                    if (searchName(tempEmail, addressBook->contacts[i].email) != -1)
+                    // searchEmail function looks for a match in email in the contact
+                    if (searchEmail(tempEmail, addressBook->contacts[i].email) != -1)
                     {
                         addressIndex = i;
                         break;
@@ -253,6 +259,7 @@ void editContact(AddressBook *addressBook)
         case 1: // Edit Name
             printf("Enter Name: ");
             scanf(" %[^\n]", tempName);
+            // validates the given number is valid or not
             valid = checkName(tempName);
             if (valid == 0)
             {
@@ -261,6 +268,7 @@ void editContact(AddressBook *addressBook)
             else
             {
                 int addressIndex = -1;
+                // Find name match
                 for (int i = 0; i < addressBook->contactCount; i++)
                 {
                     if (searchName(tempName, addressBook->contacts[i].name) != -1)
@@ -278,15 +286,20 @@ void editContact(AddressBook *addressBook)
                     printf("Phone: %s\n", addressBook->contacts[addressIndex].phone);
                     printf("Email: %s\n", addressBook->contacts[addressIndex].email);
                     printf("\n");
+
+                    // Get new name
                     do
                     {
                         printf("Enter new Name: ");
                         scanf(" %[^\n]", tempNewName);
+                        // checks if the newly enterd name is valid
                         check = checkName(tempNewName);
+                        // checkname returns 0 if the newly enterd name is invalid
                         if (check == 0)
                         {
                             continue;
                         }
+                        // update new contact name in place of old ones
                         strcpy(addressBook->contacts[addressIndex].name, tempNewName);
                         printf("\n");
                         printf("Contact Name succesfully changed!\n");
@@ -300,7 +313,7 @@ void editContact(AddressBook *addressBook)
             }
             break;
 
-        case 2:
+        case 2: // edit phone number
             printf("Enter Number: ");
             scanf(" %[^\n]", tempNumber);
             valid = checkPhone(tempNumber);
@@ -311,6 +324,7 @@ void editContact(AddressBook *addressBook)
             else
             {
                 int addressIndex = -1;
+                // searches for the number which needs to be replaced or edited
                 for (int i = 0; i < addressBook->contactCount; i++)
                 {
                     if (searchNumber(tempNumber, addressBook->contacts[i].phone) != -1)
@@ -329,6 +343,7 @@ void editContact(AddressBook *addressBook)
                     printf("Email: %s\n", addressBook->contacts[addressIndex].email);
                     printf("\n");
 
+                    // editing the number with new number
                     do
                     {
                         printf("Enter new Number: ");
@@ -349,7 +364,7 @@ void editContact(AddressBook *addressBook)
                 }
             }
             break;
-        case 3:
+        case 3: // edit email
             printf("Enter Email ID: ");
             scanf(" %[^\n]", tempEmail);
             valid = checkMail(tempEmail);
@@ -371,6 +386,7 @@ void editContact(AddressBook *addressBook)
 
                 if (addressIndex != -1)
                 {
+                    // edit email
 
                     printf("Contact Found!\n");
                     printf("Name: %s\n", addressBook->contacts[addressIndex].name);
@@ -424,12 +440,11 @@ void deleteContact(AddressBook *addressBook)
         scanf("%d", &choice);
         switch (choice)
         {
-        case 1:
-            /* code */
+        case 1: // delete by name
+
             printf("Enter Name: ");
             scanf(" %[^\n]", tempName);
             int j = 0;
-            int dupName[MAX_CONTACTS];
             valid = checkName(tempName);
             if (valid == 0)
             {
@@ -438,11 +453,13 @@ void deleteContact(AddressBook *addressBook)
             else
             {
                 int addressIndex = -1;
+                // find a match for name
                 for (int i = 0; i < addressBook->contactCount; i++)
                 {
                     if (searchName(tempName, addressBook->contacts[i].name) != -1)
                     {
-                        dupName[j] = i;
+                        // displays all the contact ith the same name with the
+                        // index of the contact
                         addressIndex = i;
                         printf("\n----Contact Index: %d----\n", i);
 
@@ -459,14 +476,13 @@ void deleteContact(AddressBook *addressBook)
                     printf("\n----> Please enter the contact index correctly <----\n");
                     printf("Contact Index: ");
                     int indexChoice;
+                    // inputs the index number from the user
                     scanf("%d", &indexChoice);
-                    // printf("Name: %s\n", addressBook->contacts[addressIndex].name);
-                    // printf("Phone: %s\n", addressBook->contacts[addressIndex].phone);
-                    // printf("Email: %s\n", addressBook->contacts[addressIndex].email);
                     printf("\n");
                     int delChoice;
                     printf("To delete press 1, to revoke press 0: ");
                     scanf("%d", &delChoice);
+                    // deltes the contact which the user enterd
                     if (delChoice == 1)
                     {
                         for (int i = indexChoice; i < addressBook->contactCount - 1; i++)
@@ -475,6 +491,7 @@ void deleteContact(AddressBook *addressBook)
                             strcpy(addressBook->contacts[i].phone, addressBook->contacts[i + 1].phone);
                             strcpy(addressBook->contacts[i].email, addressBook->contacts[i + 1].email);
                         }
+                        // after deleting contactcount is decreased by one
                         addressBook->contactCount--;
                         saveContactsToFile(addressBook);
                         printf("\nContact Successfully deleted!!\n");
